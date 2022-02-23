@@ -1,0 +1,1 @@
+django-with-react-rev2 / readme.txt 참조
