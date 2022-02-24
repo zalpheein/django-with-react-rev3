@@ -1,1 +1,2 @@
-djangorestframework          # pip install djangorestframework  3.13.1
+django~=4.0.2                       # pip install Django
+djangorestframework~=3.13.1         # pip install djangorestframework  3.13.1
