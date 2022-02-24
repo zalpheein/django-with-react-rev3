@@ -8,6 +8,16 @@ class PostViewSet(ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
 
+    # dispatch 함수는 장고 클래스 기반 뷰에서 실제 요청이 올 때마다 호출 되는 함수
+    def dispatch(self, request, *args, **kwargs):
+        print("request.body :", request.body)       # print() 비추... logger() 추천
+        print("request.POST :", request.POST)
+        # 예를 들어 등록 할 때, 다음과 같이 2가지 방식으로 저장이 가능...
+        # --json + POST : request.body 에 내용이 담겨 서버에 전달
+        # --form + POST : request.POST 에 내용이 담저 서버에 전달
+
+        return super().dispatch(request, *args, **kwargs)
+
 
 # 그냥 하려면 아래와 같이 최소 5종의 분기 처리가 필요한데....
 # 위와 같이 rest_framework 을 이용한 PostViewSet 에서 간단하게 모든 분기 처리 대신 함
