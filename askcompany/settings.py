@@ -37,8 +37,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    # 3rd 패키지
     'rest_framework',
+
+    # 추가 App
+    'instagram',
+
+
 ]
 
 MIDDLEWARE = [
