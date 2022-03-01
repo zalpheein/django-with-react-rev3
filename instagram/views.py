@@ -1,14 +1,21 @@
 from django.shortcuts import render
+from rest_framework import generics
 from rest_framework.viewsets import ModelViewSet
 from .serializers import PostSerializer
 from .models import Post
+
+
+# 리스트 + 생성 관련 직렬화
+class PublicPostListAPIView(generics.ListCreateAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
 
 
 class PostViewSet(ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
 
-    # dispatch 함수는 장고 클래스 기반 뷰에서 실제 요청이 올 때마다 호출 되는 함수
+    # dispatch 함수는 장고 클래스 기반 뷰에서 실제 요청이 될 때마다 호출 되는 함수
     def dispatch(self, request, *args, **kwargs):
         print("request.body :", request.body)       # print() 비추... logger() 추천
         print("request.POST :", request.POST)
