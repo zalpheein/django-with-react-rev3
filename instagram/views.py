@@ -5,13 +5,15 @@ from .serializers import PostSerializer
 from .models import Post
 
 
+# CBV 방식으로 구현
 # generics.ListAPIView : 리스트 직렬화만 처리
 # generics.ListCreateAPIView : 리스트와 생성 직렬화 둘다 처리
-class PublicPostListAPIView(generics.ListCreateAPIView):
+class PublicPostListAPIView(generics.ListAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
 
 
+# CBV 방식으로 구현
 class PostViewSet(ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
