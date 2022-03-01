@@ -24,6 +24,9 @@ class PublicPostListAPIView(APIView):
         return Response(serializer.data)
 
 
+public_post_list = PublicPostListAPIView.as_view()
+
+
 
 # CBV 방식으로 구현
 class PostViewSet(ModelViewSet):
