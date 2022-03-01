@@ -1,16 +1,28 @@
 from django.shortcuts import render
 from rest_framework import generics
+from rest_framework.response import Response
+from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 from .serializers import PostSerializer
 from .models import Post
 
 
-# CBV 방식으로 구현
+# generics 을 이용하여 CBV 방식으로 구현
 # generics.ListAPIView : 리스트 직렬화만 처리
 # generics.ListCreateAPIView : 리스트와 생성 직렬화 둘다 처리
-class PublicPostListAPIView(generics.ListAPIView):
-    queryset = Post.objects.filter(is_public=True)
-    serializer_class = PostSerializer
+# class PublicPostListAPIView(generics.ListAPIView):
+#     queryset = Post.objects.filter(is_public=True)
+#     serializer_class = PostSerializer
+
+
+# APIView 를 이용하여 FBV 방식으로 구현
+class PublicPostListAPIView(APIView):
+
+    def get(self, request):
+        queryset = Post.objects.filter(is_public=True)
+        serializer = PostSerializer(queryset, many=True)
+        return Response(serializer.data)
+
 
 
 # CBV 방식으로 구현
