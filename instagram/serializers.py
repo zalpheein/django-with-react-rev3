@@ -29,11 +29,13 @@ class PostSerializer(serializers.ModelSerializer):
     """
 
     # 2차 깊이의 JSON 직렬화
-    author = AuthorSerializer()
+    # author = AuthorSerializer()
+    author_username = serializers.ReadOnlyField(source='author.username')
+
 
     class Meta:
         model = Post
-        fields = ['pk', 'author', 'message', 'created_at', 'updated_at']
+        fields = ['pk', 'author_username', 'message', 'created_at', 'updated_at', 'is_public']
 
     """
      {
