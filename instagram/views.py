@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from rest_framework import generics
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
@@ -16,15 +17,26 @@ from .models import Post
 
 
 # APIView 를 이용하여 FBV 방식으로 구현
-class PublicPostListAPIView(APIView):
+# class PublicPostListAPIView(APIView):
+#
+#     def get(self, request):
+#         queryset = Post.objects.filter(is_public=True)
+#         serializer = PostSerializer(queryset, many=True)
+#         return Response(serializer.data)
+#
+#
+# public_post_list = PublicPostListAPIView.as_view()
 
-    def get(self, request):
-        queryset = Post.objects.filter(is_public=True)
-        serializer = PostSerializer(queryset, many=True)
-        return Response(serializer.data)
+# 순수한 함수 기반뷰로 구현
+# 반드시, @api_view 라는 장식자가 필요
+@api_view(['GET'])
+def public_post_list(request):
+    queryset = Post.objects.filter(is_public=True)
+    serializer = PostSerializer(queryset, many=True)
+    return Response(serializer.data)
 
 
-public_post_list = PublicPostListAPIView.as_view()
+
 
 
 
