@@ -5,7 +5,8 @@ from .serializers import PostSerializer
 from .models import Post
 
 
-# 리스트 + 생성 관련 직렬화
+# generics.ListAPIView : 리스트 직렬화만 처리
+# generics.ListCreateAPIView : 리스트와 생성 직렬화 둘다 처리
 class PublicPostListAPIView(generics.ListCreateAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
