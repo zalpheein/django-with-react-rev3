@@ -9,7 +9,7 @@ from .models import Post
 # generics.ListAPIView : 리스트 직렬화만 처리
 # generics.ListCreateAPIView : 리스트와 생성 직렬화 둘다 처리
 class PublicPostListAPIView(generics.ListAPIView):
-    queryset = Post.objects.all()
+    queryset = Post.objects.filter(is_public=True)
     serializer_class = PostSerializer
 
 
