@@ -60,6 +60,7 @@ class PostViewSet(ModelViewSet):
     #     return super().dispatch(request, *args, **kwargs)
 
     # is_public=True 인 목록을 얻어 오는 public 이름의 함수 생성
+    # 브라우저에서 http://127.0.0.1:8000/post/public/ 호출... 즉, is_public=True 인 리스트를 반환
     @action(detail=False, method=['GET'])
     def public(self, request):
         qs = self.get_queryset().filter(is_public=True)
@@ -68,6 +69,22 @@ class PostViewSet(ModelViewSet):
         serializer = self.get_serializer(qs, many=True)
 
         return Response(serializer.data)
+
+    # 특정 포스트의 is_public 의 값을 True 로 설정
+    # 브라우저에서 http://127.0.0.1:8000/post/2/set_public/ 호출 시, 이건 GET 요청이므로 수행되지 않음
+    # 고로 Shell 에서 http PATCH http://127.0.0.1:8000/post/2/set_public/ 라고 수행해야지 2번 데이터의
+    # is_public 값이 True 로 변경 됨
+    @action(detail=True, methods=['PATCH'])
+    def set_public(self, request, pk):
+        # get_objects_or_404 를 사용 할수도 있으나...get_object 를 사용한 예제
+        instance = self.get_object()
+        instance.is_public = True
+        # 특정 필드만 업데이트 수행
+        instance.save(update_fields=['is_public'])
+        serializer = self.get_serializer(instance)
+
+        return Response(serializer.data)
+
 
 
 # 그냥 하려면 아래와 같이 최소 5종의 분기 처리가 필요한데....
