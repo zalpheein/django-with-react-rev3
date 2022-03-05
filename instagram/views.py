@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework import generics
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, action
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
@@ -58,6 +58,16 @@ class PostViewSet(ModelViewSet):
     #     # --form + POST : request.POST 에 내용이 담저 서버에 전달
     #
     #     return super().dispatch(request, *args, **kwargs)
+
+    # is_public=True 인 목록을 얻어 오는 public 이름의 함수 생성
+    @action(detail=False, method=['GET'])
+    def public(self, request):
+        qs = self.get_queryset().filter(is_public=True)
+        # 아래 방법보다 시리얼라이저 클래스를 찾아서 시리얼라이즈를 만들어주는 방식이 적절함
+        # serializer = PostSerializer(qs, many=True)
+        serializer = self.get_serializer(qs, many=True)
+
+        return Response(serializer.data)
 
 
 # 그냥 하려면 아래와 같이 최소 5종의 분기 처리가 필요한데....
