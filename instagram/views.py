@@ -8,6 +8,10 @@ from .serializers import PostSerializer
 from .models import Post
 
 
+# ----------------------------------------------------------------
+# 리스트 - 시리얼라이즈를 활용한... http://127.0.0.1:8000/public/
+# ----------------------------------------------------------------
+
 # generics 을 이용하여 CBV 방식으로 구현
 # generics.ListAPIView : 리스트 직렬화만 처리
 # generics.ListCreateAPIView : 리스트와 생성 직렬화 둘다 처리
@@ -35,9 +39,9 @@ def public_post_list(request):
     serializer = PostSerializer(queryset, many=True)
     return Response(serializer.data)
 
-
-
-
+# ----------------------------------------------------------------
+# 리스트 - ViewSet 을 활용한.... http://127.0.0.1:8000/post/
+# ----------------------------------------------------------------
 
 
 # CBV 방식으로 구현
@@ -46,14 +50,14 @@ class PostViewSet(ModelViewSet):
     serializer_class = PostSerializer
 
     # dispatch 함수는 장고 클래스 기반 뷰에서 실제 요청이 될 때마다 호출 되는 함수
-    def dispatch(self, request, *args, **kwargs):
-        print("request.body :", request.body)       # print() 비추... logger() 추천
-        print("request.POST :", request.POST)
-        # 예를 들어 등록 할 때, 다음과 같이 2가지 방식으로 저장이 가능...
-        # --json + POST : request.body 에 내용이 담겨 서버에 전달
-        # --form + POST : request.POST 에 내용이 담저 서버에 전달
-
-        return super().dispatch(request, *args, **kwargs)
+    # def dispatch(self, request, *args, **kwargs):
+    #     print("request.body :", request.body)       # print() 비추... logger() 추천
+    #     print("request.POST :", request.POST)
+    #     # 예를 들어 등록 할 때, 다음과 같이 2가지 방식으로 저장이 가능...
+    #     # --json + POST : request.body 에 내용이 담겨 서버에 전달
+    #     # --form + POST : request.POST 에 내용이 담저 서버에 전달
+    #
+    #     return super().dispatch(request, *args, **kwargs)
 
 
 # 그냥 하려면 아래와 같이 최소 5종의 분기 처리가 필요한데....
