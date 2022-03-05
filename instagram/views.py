@@ -85,6 +85,18 @@ class PostViewSet(ModelViewSet):
 
         return Response(serializer.data)
 
+    # 현재 시점에서 허용되는 URL
+    # http://127.0.0.1:8000/post.api
+    # http://127.0.0.1:8000/post.json
+    # http://127.0.0.1:8000/post/?format=json
+    # 즉, 반환 되는 내용에 대한 포멧을 URL 로 지정이 가능 하다는 의미
+    
+
+
+
+
+
+
 # 그냥 하려면 아래와 같이 최소 5종의 분기 처리가 필요한데....
 # 위와 같이 rest_framework 을 이용한 PostViewSet 에서 간단하게 모든 분기 처리 대신 함
 # def post_list(request):
