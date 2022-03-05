@@ -61,7 +61,7 @@ class PostViewSet(ModelViewSet):
 
     # is_public=True 인 목록을 얻어 오는 public 이름의 함수 생성
     # 브라우저에서 http://127.0.0.1:8000/post/public/ 호출... 즉, is_public=True 인 리스트를 반환
-    @action(detail=False, method=['GET'])
+    @action(detail=False, methods=['GET'])
     def public(self, request):
         qs = self.get_queryset().filter(is_public=True)
         # 아래 방법보다 시리얼라이저 클래스를 찾아서 시리얼라이즈를 만들어주는 방식이 적절함
@@ -84,8 +84,6 @@ class PostViewSet(ModelViewSet):
         serializer = self.get_serializer(instance)
 
         return Response(serializer.data)
-
-
 
 # 그냥 하려면 아래와 같이 최소 5종의 분기 처리가 필요한데....
 # 위와 같이 rest_framework 을 이용한 PostViewSet 에서 간단하게 모든 분기 처리 대신 함
