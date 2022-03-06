@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # 3rd 패키지
     'rest_framework',
+    'rest_framework.authtoken',
 
     # 추가 App
     'accounts',
