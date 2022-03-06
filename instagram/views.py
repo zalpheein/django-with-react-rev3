@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import generics
 from rest_framework.decorators import api_view, action
-from rest_framework.filters import SearchFilter
+from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -70,8 +70,17 @@ class PostViewSet(ModelViewSet):
     #     return super().dispatch(request, *args, **kwargs)
 
     # 본 클래스(PostViewSet) 를 활용한 목록에서 조회 조건과 정렬을 지정
-    filter_backends = [SearchFilter]
+    filter_backends = [SearchFilter, OrderingFilter]
+    # 조회(필터) 방식을 다음과 같이 세분화 할 수 있음
+    # ['^message'] : 입력되는 단어로 시작하는 매칭
+    # ['=message'] : 입력된 단어와 정확히 매칭
+    # ['@message'] : full text search
+    # ['$message'] : 정규식 매칭
+    # ['message', '~~~', '~~~'] 으로 확장 사용이 가능함
     search_fields = ['message']
+    # 아래 정렬 대상을 지정하지 않을 경우, serializer_class 에 지정된 기본 정렬로 수행됨
+    ordering_fields = ['id']    # 정렬을 허용할 필드 지정
+    ordering = ['id']           # 디폴트 정렬을 지정
 
 
 
