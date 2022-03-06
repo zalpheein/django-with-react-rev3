@@ -128,3 +128,12 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# PERMISSION_CLASS 의 전역 설정 방법
+# 터미널에서 http http://127.0.0.1:8000/post/1/ 로 요청 시,
+#   Authentication credentials were not provided. 라는 문구로 인증이 거부됨
+REST_FRAMEWORKK = {
+    'DEFAULT_PERMISSION_CLASS': [
+        'rest_framework.permissions.IsAuthenticated',
+    ]
+}
