@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
 
     # 추가 App
+    'accounts',
     'instagram',
 
 
