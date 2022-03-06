@@ -2,6 +2,7 @@ from django.shortcuts import render
 from rest_framework import generics
 from rest_framework.decorators import api_view, action
 from rest_framework.filters import SearchFilter, OrderingFilter
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -46,6 +47,8 @@ def public_post_list(request):
 # ----------------------------------------------------------------
 
 
+
+
 # CBV 방식으로 구현
 class PostViewSet(ModelViewSet):
     queryset = Post.objects.all()
@@ -81,9 +84,6 @@ class PostViewSet(ModelViewSet):
     # 아래 정렬 대상을 지정하지 않을 경우, serializer_class 에 지정된 기본 정렬로 수행됨
     ordering_fields = ['id']    # 정렬을 허용할 필드 지정
     ordering = ['id']           # 디폴트 정렬을 지정
-
-
-
 
     # 신규 생성, 업데이트, 삭제 시에 추가로 지정해야 할 필드가 있다면... perform_XXX 을 이용
     def perform_create(self, serializer):
