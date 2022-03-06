@@ -5,9 +5,9 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
-from .serializers import PostSerializer
 from .models import Post
 from .permissions import IsAuthorOrReadonly
+from .serializers import PostSerializer
 
 
 # ----------------------------------------------------------------
@@ -59,8 +59,6 @@ class PostViewSet(ModelViewSet):
     # 여러 개의 사용자 정의 permission 을 지정 하는 예시
     permission_classes = [IsAuthenticated, IsAuthorOrReadonly]
 
-
-
     # dispatch 함수는 장고 클래스 기반 뷰에서 실제 요청이 될 때마다 호출 되는 함수
     # def dispatch(self, request, *args, **kwargs):
     #     print("request.body :", request.body)       # print() 비추... logger() 추천
@@ -73,7 +71,6 @@ class PostViewSet(ModelViewSet):
 
     # 신규 생성, 업데이트, 삭제 시에 추가로 지정해야 할 필드가 있다면... perform_XXX 을 이용
     def perform_create(self, serializer):
-
         author = self.request.user
         ip = self.request.META['REMOTE_ADDR']
         serializer.save(author=author, ip=ip)
@@ -83,15 +80,15 @@ class PostViewSet(ModelViewSet):
     @action(detail=False, methods=['GET'])
     def public(self, request):
         qs = self.get_queryset().filter(is_public=True)
-        # 아래 방법보다 시리얼라이저 클래스를 찾아서 시리얼라이즈를 만들어주는 방식이 적절함
+        # 아래 방법보다 get_serializer 으로 시리얼라이저 클래스를 찾아서 시리얼라이즈를 만들어주는 방식이 적절함
         # serializer = PostSerializer(qs, many=True)
         serializer = self.get_serializer(qs, many=True)
 
         return Response(serializer.data)
 
     # 특정 포스트의 is_public 의 값을 True 로 설정
-    # 브라우저에서 http://127.0.0.1:8000/post/2/set_public/ 호출 시, 이건 GET 요청이므로 수행되지 않음
-    # 고로 Shell 에서 http PATCH http://127.0.0.1:8000/post/2/set_public/ 라고 수행해야지 2번 데이터의
+    # 브라우저에서 http://127.0.0.1:8000/post/2/set_public/ 호출 시, 이건 브라우저에서 호출하는 GET 요청이므로 수행되지 않음
+    # 고로 Shell 에서 http PATCH http://127.0.0.1:8000/post/2/set_public/ 라고 수행 해야지 2번 데이터의
     # is_public 값이 True 로 변경 됨
     @action(detail=True, methods=['PATCH'])
     def set_public(self, request, pk):
@@ -109,11 +106,6 @@ class PostViewSet(ModelViewSet):
     # http://127.0.0.1:8000/post.json
     # http://127.0.0.1:8000/post/?format=json
     # 즉, 반환 되는 내용에 대한 포멧을 URL 로 지정이 가능 하다는 의미
-
-
-
-
-
 
 
 # 그냥 하려면 아래와 같이 최소 5종의 분기 처리가 필요한데....
