@@ -30,7 +30,6 @@ from .serializers import PostSerializer
 #         serializer = PostSerializer(queryset, many=True)
 #         return Response(serializer.data)
 #
-#
 # public_post_list = PublicPostListAPIView.as_view()
 
 # 순수한 함수 기반뷰로 구현
