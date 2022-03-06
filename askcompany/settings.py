@@ -153,6 +153,21 @@ REST_FRAMEWORK = {
         # 'anon': None,
         'user': '3/day',
     },
+
+    # user2 의 토큰 생성 방법
+    #   http POST http://127.0.0.1:8000/accounts/api-token-auth/ username=user2 password=비밀번호
+    #   생성된 토근 : 6d8018ad7df09e2d719893d07569b99999999999
+
+
+    # 다음과 같이 user2 로 생성한 토큰을 이용하여 1번 post 를 조회 할경우 오류 발생
+    #   http GET http://127.0.0.1:8000/post/1/ "Authorization: Token 6d8018ad7df09e2d719893d07569b99999999999"
+    # 이유는 현재 디폴트로 적의된 인증이 세션과 베이직 인증이어서 발생
+    # 이를 위하여 다음과 같이 베이직 인증 대신 토큰 인증으로 변경 처리
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        # 'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ]
 }
 
 
