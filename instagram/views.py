@@ -52,6 +52,7 @@ class PostViewSet(ModelViewSet):
     # PostViewSet 을 사용하기 위해서는 무조건 로그인이 되어 있어야 함을 명시적으로 지정하는 방법
     # 아래와 같은 지정이 없을 경우,
     # 아래의 함수들(perform_create,public , set_public) 을 호출 할 수 없음
+    # 즉, 인증이 되어 있음을 보장 받을수 있음
     authentication_classes = [IsAuthenticated]
 
     # dispatch 함수는 장고 클래스 기반 뷰에서 실제 요청이 될 때마다 호출 되는 함수
@@ -66,7 +67,7 @@ class PostViewSet(ModelViewSet):
 
     # 신규 생성, 업데이트, 삭제 시에 추가로 지정해야 할 필드가 있다면... perform_XXX 을 이용
     def perform_create(self, serializer):
-        
+
         author = self.request.user
         ip = self.request.META['REMOTE_ADDR']
         serializer.save(author=author, ip=ip)
