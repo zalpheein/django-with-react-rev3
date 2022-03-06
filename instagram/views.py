@@ -90,7 +90,7 @@ class PostViewSet(ModelViewSet):
     # http://127.0.0.1:8000/post.json
     # http://127.0.0.1:8000/post/?format=json
     # 즉, 반환 되는 내용에 대한 포멧을 URL 로 지정이 가능 하다는 의미
-    
+
 
 
 
