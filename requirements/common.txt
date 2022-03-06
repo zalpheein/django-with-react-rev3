@@ -1,3 +1,4 @@
 django~=4.0.2                       # pip install Django
 djangorestframework~=3.13.1         # pip install djangorestframework  3.13.1  https://www.django-rest-framework.org
 httpie~=2.0.0                       # pip install httpie~=2.0.0
+djangorestframework-jwt~=1.11.0     # pip install djangorestframework-jwt
