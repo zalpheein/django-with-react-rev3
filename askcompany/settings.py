@@ -132,8 +132,19 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # PERMISSION_CLASS 의 전역 설정 방법
 # 터미널에서 http http://127.0.0.1:8000/post/1/ 로 요청 시,
 #   Authentication credentials were not provided. 라는 문구로 인증이 거부됨
-REST_FRAMEWORKK = {
-    'DEFAULT_PERMISSION_CLASS': [
+# 페이징 기능 추가
+REST_FRAMEWORK = {
+    'PAGE_SIZE': 2,
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
-    ]
+    ],
 }
+
+
+
+
+
+
+
+
