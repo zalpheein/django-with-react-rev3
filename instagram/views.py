@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from rest_framework import generics
 from rest_framework.decorators import api_view, action
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
@@ -48,6 +49,8 @@ def public_post_list(request):
 class PostViewSet(ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+    # PostViewSet 을 사용하기 위해서는 무조건 로그인이 되어 있어야 함을 명시적으로 지정하는 방법
+    authentication_classes = [IsAuthenticated]
 
     # dispatch 함수는 장고 클래스 기반 뷰에서 실제 요청이 될 때마다 호출 되는 함수
     # def dispatch(self, request, *args, **kwargs):
@@ -58,6 +61,13 @@ class PostViewSet(ModelViewSet):
     #     # --form + POST : request.POST 에 내용이 담저 서버에 전달
     #
     #     return super().dispatch(request, *args, **kwargs)
+
+    # 신규 생성, 업데이트, 삭제 시에 추가로 지정해야 할 필드가 있다면... perform_XXX 을 이용
+    def perform_create(self, serializer):
+        # 향후 수정 사항 : 인증이 되어 있다는 가정하에, author 를 지정
+        author = self.request.user
+        ip = self.request.META['REMOTE_ADDR']
+        serializer.save(author=author, ip=ip)
 
     # is_public=True 인 목록을 얻어 오는 public 이름의 함수 생성
     # 브라우저에서 http://127.0.0.1:8000/post/public/ 호출... 즉, is_public=True 인 리스트를 반환
