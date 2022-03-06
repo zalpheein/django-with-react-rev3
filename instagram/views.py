@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from rest_framework import generics
 from rest_framework.decorators import api_view, action
+from rest_framework.filters import SearchFilter
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -67,6 +68,13 @@ class PostViewSet(ModelViewSet):
     #     # --form + POST : request.POST 에 내용이 담저 서버에 전달
     #
     #     return super().dispatch(request, *args, **kwargs)
+
+    # 본 클래스(PostViewSet) 를 활용한 목록에서 조회 조건과 정렬을 지정
+    filter_backends = [SearchFilter]
+    search_fields = ['message']
+
+
+
 
     # 신규 생성, 업데이트, 삭제 시에 추가로 지정해야 할 필드가 있다면... perform_XXX 을 이용
     def perform_create(self, serializer):
