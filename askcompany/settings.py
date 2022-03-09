@@ -161,8 +161,9 @@ REST_FRAMEWORK = {
 
     # 다음과 같이 user2 로 생성한 토큰을 이용하여 1번 post 를 조회 할경우 오류 발생
     #   http GET http://127.0.0.1:8000/post/1/ "Authorization: Token 6d8018ad7df09e2d719893d07569b99999999999"
-    # 이유는 현재 디폴트로 적의된 인증이 세션과 베이직 인증이어서 발생
+    # 이유는 현재 디폴트로 정의된 인증이 세션과 베이직 인증이어서 발생
     # 이를 위하여 다음과 같이 베이직 인증 대신 토큰 인증으로 변경 처리
+    #
     # 이를 다시 토큰 인증 대신 jwt 사용을 위하여 주석처리
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',
@@ -174,7 +175,7 @@ REST_FRAMEWORK = {
         # 'rest_framework.authentication.TokenAuthentication',
         # django 4.0 에서는 "force_text" 가 제외되어 아래 코드가 오류남
         # 그래서 그냥 TokenAuthentication 으로 다시 변경 처리
-        #'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        # 'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
         'rest_framework.authentication.TokenAuthentication',
 
         
